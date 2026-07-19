@@ -1,0 +1,17 @@
+{
+  "name": "@ryvra/policy-risk",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Ryvra Policy Risk decision layer baseline",
+  "type": "module",
+  "scripts": {
+    "lint": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test test/*.spec.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.7.2"
+  }
+}
