@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Ryvra Policy Risk decision layer baseline",
+  "packageManager": "pnpm@10.16.0",
   "type": "module",
   "scripts": {
     "lint": "tsc --noEmit",
