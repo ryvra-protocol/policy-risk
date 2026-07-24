@@ -1,12 +1,50 @@
+export const CANONICAL_REASON_CODE_PREFIXES = [
+  "LIMIT_EXCEEDED_",
+  "VELOCITY_EXCEEDED_",
+  "JURISDICTION_RESTRICTED_",
+  "SANCTIONS_HIT_",
+  "RISK_SCORE_HIGH_",
+  "DUPLICATE_REFERENCE_",
+  "ASSET_RESTRICTED_"
+] as const;
+
 export const REASON_CODES = {
-  POLICY_ALLOW_BASELINE: "policy.allow.baseline",
-  POLICY_REVIEW_RISK_BORDERLINE: "policy.review.risk.borderline",
-  POLICY_DENY_RISK_HIGH: "policy.deny.risk.high",
-  POLICY_DENY_LIMIT_EXCEEDED: "policy.deny.limit.exceeded",
-  COMPLIANCE_REVIEW_TIMEOUT: "compliance.review.timeout",
-  COMPLIANCE_DENY_SANCTIONS_MATCH: "compliance.deny.sanctions.match",
-  ABUSE_REVIEW_SIGNAL_MEDIUM: "abuse.review.signal.medium",
-  ABUSE_DENY_SIGNAL_HIGH: "abuse.deny.signal.high"
+  LIMIT_EXCEEDED_ACCOUNT_DAILY: "LIMIT_EXCEEDED_ACCOUNT_DAILY",
+  VELOCITY_EXCEEDED_DAILY_AMOUNT: "VELOCITY_EXCEEDED_DAILY_AMOUNT",
+  JURISDICTION_RESTRICTED_DESTINATION: "JURISDICTION_RESTRICTED_DESTINATION",
+  SANCTIONS_HIT_PROVIDER_MATCH: "SANCTIONS_HIT_PROVIDER_MATCH",
+  RISK_SCORE_HIGH_THRESHOLD: "RISK_SCORE_HIGH_THRESHOLD",
+  RISK_SCORE_HIGH_BORDERLINE_REVIEW: "RISK_SCORE_HIGH_BORDERLINE_REVIEW",
+  DUPLICATE_REFERENCE_TX_ID: "DUPLICATE_REFERENCE_TX_ID",
+  ASSET_RESTRICTED_CLASS: "ASSET_RESTRICTED_CLASS"
 } as const;
 
 export type ReasonCode = (typeof REASON_CODES)[keyof typeof REASON_CODES];
+
+const LEGACY_REASON_CODE_NORMALIZATION: Record<string, ReasonCode> = {
+  "policy.allow.baseline": REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW,
+  "policy.review.risk.borderline": REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW,
+  "policy.deny.risk.high": REASON_CODES.RISK_SCORE_HIGH_THRESHOLD,
+  "policy.deny.limit.exceeded": REASON_CODES.LIMIT_EXCEEDED_ACCOUNT_DAILY,
+  "compliance.review.timeout": REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW,
+  "compliance.deny.sanctions.match": REASON_CODES.SANCTIONS_HIT_PROVIDER_MATCH,
+  "abuse.review.signal.medium": REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW,
+  "abuse.deny.signal.high": REASON_CODES.RISK_SCORE_HIGH_THRESHOLD
+};
+
+export function isCanonicalReasonCode(code: string): boolean {
+  return CANONICAL_REASON_CODE_PREFIXES.some((prefix) => code.startsWith(prefix));
+}
+
+export function normalizeReasonCode(code: string): string {
+  if (isCanonicalReasonCode(code)) {
+    return code;
+  }
+
+  return LEGACY_REASON_CODE_NORMALIZATION[code] ?? code;
+}
+
+export function normalizeReasonCodes(reasonCodes: string[]): string[] {
+  const normalized = reasonCodes.map((code) => normalizeReasonCode(code));
+  return [...new Set(normalized)].sort();
+}

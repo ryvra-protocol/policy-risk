@@ -10,6 +10,25 @@ It acts as a policy decision point for:
 
 **Status: early draft / not production-ready**
 
+## Canonical decision schema
+
+Every decision output includes:
+- `decision`: `ALLOW | DENY | REVIEW`
+- `reason_codes`: `string[]`
+- `policy_version`: `string`
+
+Rules:
+- `DENY` must include at least one machine-readable reason code.
+- `ALLOW` and `REVIEW` may use an empty `reason_codes` array when policy logic permits.
+- Reason code prefixes must be canonical:
+  - `LIMIT_EXCEEDED_*`
+  - `VELOCITY_EXCEEDED_*`
+  - `JURISDICTION_RESTRICTED_*`
+  - `SANCTIONS_HIT_*`
+  - `RISK_SCORE_HIGH_*`
+  - `DUPLICATE_REFERENCE_*`
+  - `ASSET_RESTRICTED_*`
+
 ## Architecture
 
 `input context -> policy engine -> decision + reason codes -> audit log`

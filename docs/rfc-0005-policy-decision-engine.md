@@ -8,8 +8,20 @@ Defines the v1 deterministic policy decision contract for Ryvra Policy Risk.
 
 Every policy decision returns:
 - `decision`: `ALLOW | DENY | REVIEW`
-- `reason_codes`: machine-readable reason code list
+- `reason_codes`: machine-readable reason code list (`string[]`)
 - `policy_version`: required on every decision
+
+Validation rules:
+- `DENY` MUST include one or more `reason_codes`.
+- `ALLOW` and `REVIEW` MAY use empty `reason_codes` when policy logic allows.
+- `reason_codes` MUST use canonical prefixes:
+  - `LIMIT_EXCEEDED_*`
+  - `VELOCITY_EXCEEDED_*`
+  - `JURISDICTION_RESTRICTED_*`
+  - `SANCTIONS_HIT_*`
+  - `RISK_SCORE_HIGH_*`
+  - `DUPLICATE_REFERENCE_*`
+  - `ASSET_RESTRICTED_*`
 
 ## Input schema (v1)
 

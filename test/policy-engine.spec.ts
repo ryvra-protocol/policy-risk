@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 
 import { PolicyEngine } from "../src/engine/policy-engine.js";
+import { validatePolicyDecisionOutput } from "../src/validation/policy-decision-output.js";
 
 const engine = new PolicyEngine({
   policyVersion: "v1",
@@ -21,7 +22,8 @@ test("allows low risk payment", () => {
   const decision = engine.evaluate(baseInput);
   assert.equal(decision.decision, "ALLOW");
   assert.equal(decision.policy_version, "v1");
-  assert.ok(decision.reason_codes.length > 0);
+  assert.deepEqual(decision.reason_codes, []);
+  assert.equal(validatePolicyDecisionOutput(decision).valid, true);
 });
 
 test("denies high risk transfer", () => {
@@ -34,6 +36,8 @@ test("denies high risk transfer", () => {
 
   assert.equal(decision.decision, "DENY");
   assert.equal(decision.policy_version, "v1");
+  assert.ok(decision.reason_codes.length > 0);
+  assert.equal(validatePolicyDecisionOutput(decision).valid, true);
 });
 
 test("marks borderline case for review", () => {
@@ -46,4 +50,5 @@ test("marks borderline case for review", () => {
 
   assert.equal(decision.decision, "REVIEW");
   assert.equal(decision.policy_version, "v1");
+  assert.equal(validatePolicyDecisionOutput(decision).valid, true);
 });
