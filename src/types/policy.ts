@@ -1,5 +1,3 @@
-import type { ReasonCode } from "./reason-codes.js";
-
 export type PolicyDecisionResult = "ALLOW" | "DENY" | "REVIEW";
 
 export interface AccountProfile {
@@ -47,11 +45,14 @@ export interface LimitsSnapshot {
   observed_daily_amount: number;
 }
 
-export interface PolicyDecision {
+export interface CanonicalPolicyDecisionOutput {
   decision: PolicyDecisionResult;
-  reason_codes: ReasonCode[];
+  reason_codes: string[];
+  policy_version: string;
+}
+
+export interface PolicyDecision extends CanonicalPolicyDecisionOutput {
   applied_rules: string[];
   limits_snapshot: LimitsSnapshot;
   expiry: string;
-  policy_version: string;
 }
