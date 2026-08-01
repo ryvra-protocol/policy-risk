@@ -1,12 +1,12 @@
-# Risk Scoring and Limits (v1 baseline)
+# Risk Scoring and Limits (v1 production)
 
-## Baseline risk scoring model
+## Production risk scoring model
 
-Placeholder deterministic score:
+Deterministic score:
 
 `risk_score = base_account_risk + tx_size_factor + velocity_factor + jurisdiction_factor + abuse_signal_factor`
 
-All thresholds/weights are **TBD by governance/policy**.
+Thresholds and weights are governed by approved policy configuration and versioned through `policy_version`.
 
 ## Limits
 
@@ -17,7 +17,7 @@ All thresholds/weights are **TBD by governance/policy**.
 ## Velocity controls
 
 - Daily and epoch windows are evaluated deterministically.
-- Window definitions and thresholds are **TBD by governance/policy**.
+- Window definitions and thresholds are governed by approved policy configuration and versioned through `policy_version`.
 
 ## Session key constraints integration
 

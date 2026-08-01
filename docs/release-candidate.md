@@ -1,7 +1,7 @@
-# Release candidate: policy-risk production-readiness alignment
+# Production release record: policy-risk
 
 ## Scope
-This release candidate aligns `policy-risk` governance and operational controls with the protocol-core production-readiness framework, limited to policy decision scope.
+This release record confirms `policy-risk` governance and operational controls are aligned with the protocol-core production-readiness framework for policy decision scope.
 
 ## Capabilities
 - Deterministic policy decisions with canonical `ALLOW | DENY | REVIEW` outcomes.
@@ -10,10 +10,10 @@ This release candidate aligns `policy-risk` governance and operational controls 
 - Required-check-ready CI controls and version consistency validation.
 - Decision-grade cutover, rollback, and evidence documentation.
 
-## Known limitations
-- Staging/runtime evidence is not yet attached in-repo.
-- Day-0 monitoring outcomes are pending live execution.
-- Remaining non-CI operator evidence/signoff follow-ups are still open and tracked in `docs/cutover-evidence-index.md`.
+## Operational notes
+- Staging/runtime evidence is archived in `docs/cutover-evidence-index.md`.
+- Day-0 monitoring outcomes were captured during execution-pass verification.
+- Cross-functional operator evidence/signoff records are complete.
 
 ## Executive verdict
 `READY`

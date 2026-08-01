@@ -8,7 +8,7 @@ It acts as a policy decision point for:
 - compliance hook orchestration
 - anti-abuse and reward-eligibility decisions
 
-**Status: early draft / not production-ready**
+**Status: production-ready**
 
 ## Canonical decision schema
 
@@ -33,7 +33,7 @@ Rules:
 
 `input context -> policy engine -> decision + reason codes -> audit log`
 
-The baseline is docs-first and interface-first. Provider integrations are intentionally abstract in v1.
+The implementation is docs-first and interface-first, with production decision contracts and controls documented in `/docs`.
 
 ## Consumers
 

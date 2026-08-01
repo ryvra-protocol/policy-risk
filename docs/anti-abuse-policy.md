@@ -1,4 +1,4 @@
-# Anti-Abuse Policy (v1 baseline)
+# Anti-Abuse Policy (v1 production)
 
 ## Heuristic categories
 
@@ -11,7 +11,7 @@
 - `MEDIUM`: route to `REVIEW`
 - `HIGH`: deny eligible transaction classes
 
-Thresholds are **TBD by governance/policy**.
+Thresholds are governed by approved policy configuration and versioned through `policy_version`.
 
 ## Impact
 

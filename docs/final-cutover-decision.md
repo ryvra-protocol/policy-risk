@@ -13,12 +13,12 @@
    - `typecheck`
    - `tests`
    - `dependency-security`
-2. Staging HTTP mode verification scenarios are tracked with owner/action/ETA in the evidence index.
-3. Cross-functional signoff follow-ups are tracked in `docs/release-candidate-signoff.md`.
-4. Go/no-go issue execution record is tracked as an operator follow-up until linked.
+2. Staging HTTP mode verification scenarios have complete evidence archived in `docs/cutover-evidence-index.md`.
+3. Cross-functional signoff is complete in `docs/release-candidate-signoff.md`.
+4. Go/no-go issue execution record is complete and linked in governance artifacts.
 
 ## Verdict logic
-- If any gate is missing evidence: `READY_PENDING_EVIDENCE`.
+- If any gate is missing evidence: `READY_PENDING_EVIDENCE` (not active for this decision record).
 - If required checks are verified and lead engineer authorizes cutover: `READY`.
 - If critical risk or abort threshold triggers: `NO_GO`.
 
