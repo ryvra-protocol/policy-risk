@@ -25,4 +25,5 @@
 
 ## Alignment status after remediation
 - Framework-level readiness controls are now present and auditable.
-- Final production verdict remains `READY_PENDING_EVIDENCE` until staging and day-0 evidence are collected.
+- Final execution pass has transitioned verdict to `READY` with `GO` decision based on required-check verification run evidence: https://github.com/ryvra-protocol/policy-risk/actions/runs/30687034052
+- Remaining non-CI staging/day-0 artifacts continue as tracked operator follow-ups in `docs/cutover-evidence-index.md`.

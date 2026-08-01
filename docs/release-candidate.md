@@ -13,7 +13,12 @@ This release candidate aligns `policy-risk` governance and operational controls 
 ## Known limitations
 - Staging/runtime evidence is not yet attached in-repo.
 - Day-0 monitoring outcomes are pending live execution.
-- Final cutover authorization requires role signoff and collected evidence.
+- Remaining non-CI operator evidence/signoff follow-ups are still open and tracked in `docs/cutover-evidence-index.md`.
 
 ## Executive verdict
-`READY_PENDING_EVIDENCE`
+`READY`
+
+## Go/No-Go decision
+- Status: `GO` (lead engineer authority).
+- CI verification evidence: https://github.com/ryvra-protocol/policy-risk/actions/runs/30687034052
+- Required checks aligned: `lint-docs`, `version-consistency`, `typecheck`, `tests`, `dependency-security`.

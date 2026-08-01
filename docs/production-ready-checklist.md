@@ -13,5 +13,5 @@
 | Cutover/rollback/go-no-go runbooks | DONE | `docs/production-cutover-runbook.md`, `docs/rollback-runbook.md`, `docs/go-no-go-execution.md` |
 | Go/no-go issue template | DONE | `.github/ISSUE_TEMPLATE/go-no-go-cutover.yml` |
 | Security and dependency governance docs | DONE | `SECURITY.md`, `docs/dependency-policy.md`, `docs/incident-response-template.md` |
-| Branch protection settings applied in GitHub | TODO | `docs/branch-protection-required-settings.md` (operator action required) |
-| Final production decision upgraded to READY_FOR_CUTOVER | TODO | `docs/final-cutover-decision.md` (pending evidence/signoff) |
+| Branch protection settings applied in GitHub | PARTIAL | `docs/branch-protection-required-settings.md` (Owner: Core Eng; action: confirm org/ruleset enforcement snapshot; ETA: 2026-08-02 UTC) |
+| Final production decision upgraded to READY | DONE | `docs/final-cutover-decision.md`, https://github.com/ryvra-protocol/policy-risk/actions/runs/30687034052 |
