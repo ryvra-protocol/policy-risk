@@ -4,26 +4,135 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  ci:
+  lint-docs:
+    name: lint-docs
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
-      - uses: pnpm/action-setup@v4
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
           version: 10.16.0
           run_install: false
       - name: Install
-        run: pnpm install --frozen-lockfile
-      - name: Lint
-        run: pnpm lint
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+      - name: Lint docs presence
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test -f CHANGELOG.md
+
+  version-consistency:
+    name: version-consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.0
+          run_install: false
+      - name: Install
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+      - name: Validate versions
+        run: |
+          set -euo pipefail
+          pnpm validate:versions
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.0
+          run_install: false
+      - name: Install
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
       - name: Typecheck
-        run: pnpm typecheck
-      - name: Test
-        run: pnpm test
+        run: |
+          set -euo pipefail
+          pnpm typecheck
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.0
+          run_install: false
+      - name: Install
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+      - name: Tests
+        run: |
+          set -euo pipefail
+          pnpm test
+
+  dependency-security:
+    name: dependency-security
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.16.0
+          run_install: false
+      - name: Install
+        run: |
+          set -euo pipefail
+          pnpm install --frozen-lockfile
+      - name: Dependency security audit
+        run: |
+          set -euo pipefail
+          pnpm audit --audit-level=high

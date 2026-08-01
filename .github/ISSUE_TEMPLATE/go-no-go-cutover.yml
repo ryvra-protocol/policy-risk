@@ -1,0 +1,58 @@
+name: Go/No-Go Cutover
+about: Execute and record production cutover decision
+labels: [cutover, go-no-go]
+body:
+  - type: input
+    id: target_commit
+    attributes:
+      label: Target commit
+      description: Commit SHA proposed for cutover
+    validations:
+      required: true
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Decision
+      options:
+        - GO
+        - NO_GO
+    validations:
+      required: true
+  - type: checkboxes
+    id: required_checks
+    attributes:
+      label: Required checks verified
+      options:
+        - label: lint-docs
+        - label: version-consistency
+        - label: typecheck
+        - label: tests
+        - label: dependency-security
+  - type: textarea
+    id: evidence_links
+    attributes:
+      label: Evidence links
+      description: Link to cutover evidence index entries, logs, screenshots
+    validations:
+      required: true
+  - type: checkboxes
+    id: role_signoff
+    attributes:
+      label: Role signoff
+      options:
+        - label: Core Engineering approved
+        - label: Ops/SRE approved
+        - label: Security approved
+        - label: Product Owner approved
+  - type: textarea
+    id: abort_threshold_review
+    attributes:
+      label: Abort threshold review
+      description: Note any threshold breaches and resulting action
+    validations:
+      required: true
+  - type: textarea
+    id: communications
+    attributes:
+      label: Communications log
+      description: Start/update/close announcements and channels

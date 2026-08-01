@@ -8,7 +8,9 @@
   "scripts": {
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "node --import tsx --test test/*.spec.ts"
+    "test": "node --import tsx --test test/*.spec.ts",
+    "validate:versions": "node scripts/validate-version-consistency.mjs",
+    "verify:staging:http": "node -e \"console.log(\\\"See docs/staging-http-mode-verification.md for staging verification contract.\\\")\""
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
