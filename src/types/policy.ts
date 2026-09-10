@@ -1,4 +1,4 @@
-export type PolicyDecisionResult = "ALLOW" | "DENY" | "REVIEW";
+export type PolicyDecisionResult = "ALLOW" | "DENY" | "REVIEW" | "CHALLENGE" | "DELAY" | "QUARANTINE";
 
 export interface AccountProfile {
   account_id: string;
