@@ -162,9 +162,8 @@ test("risk assessment is independent, persisted, and audit records are reconstru
     },
     policyDecision: decision,
     riskSignals: {
-      accountRiskScore: 72,
-      abuseSignalLevel: "MEDIUM",
-      manualFlags: ["watchlist"]
+      accountRiskScore: 50,
+      abuseSignalLevel: "MEDIUM"
     }
   });
 

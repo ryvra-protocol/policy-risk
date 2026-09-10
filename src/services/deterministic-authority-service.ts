@@ -1,7 +1,7 @@
 import { DeterministicPolicyEvaluator, compareDecisions, compareRuleMatches } from "../engine/deterministic-policy-evaluator.js";
 import { IndependentRiskEngine } from "../engine/independent-risk-engine.js";
 import { InMemoryAuthorityStore } from "../store/in-memory-authority-store.js";
-import type { AssessRiskInput, EvaluatePolicyInput, PolicyDecisionRecord, ProgrammablePolicyDecision } from "../types/authority.js";
+import type { AssessRiskInput, CreateMandateVersionInput, CreatePolicyVersionInput, EvaluatePolicyInput, PolicyDecisionRecord, ProgrammablePolicyDecision } from "../types/authority.js";
 import { stableHash } from "../utils/stable-serialization.js";
 
 function strongerDecision(left: ProgrammablePolicyDecision, right: ProgrammablePolicyDecision): ProgrammablePolicyDecision {
@@ -15,12 +15,29 @@ export class DeterministicAuthorityService {
     private readonly riskEngine = new IndependentRiskEngine()
   ) {}
 
-  createPolicyVersion = this.store.createPolicyVersion.bind(this.store);
-  activatePolicyVersion = this.store.activatePolicyVersion.bind(this.store);
-  deactivatePolicyVersion = this.store.deactivatePolicyVersion.bind(this.store);
-  createMandateVersion = this.store.createMandateVersion.bind(this.store);
-  activateMandateVersion = this.store.activateMandateVersion.bind(this.store);
-  revokeMandateVersion = this.store.revokeMandateVersion.bind(this.store);
+  createPolicyVersion(input: CreatePolicyVersionInput) {
+    return this.store.createPolicyVersion(input);
+  }
+
+  activatePolicyVersion(policyId: string, version: string, activatedAt?: string) {
+    return this.store.activatePolicyVersion(policyId, version, activatedAt);
+  }
+
+  deactivatePolicyVersion(policyId: string, version: string, deactivatedAt?: string) {
+    return this.store.deactivatePolicyVersion(policyId, version, deactivatedAt);
+  }
+
+  createMandateVersion(input: CreateMandateVersionInput) {
+    return this.store.createMandateVersion(input);
+  }
+
+  activateMandateVersion(mandateId: string, version: string, activatedAt?: string) {
+    return this.store.activateMandateVersion(mandateId, version, activatedAt);
+  }
+
+  revokeMandateVersion(mandateId: string, version: string, revokedAt?: string) {
+    return this.store.revokeMandateVersion(mandateId, version, revokedAt);
+  }
 
   evaluatePolicy(input: EvaluatePolicyInput): PolicyDecisionRecord {
     const createdAt = input.createdAt ?? input.intent.tx_metadata.timestamp;
