@@ -12,6 +12,29 @@ function mapRuleToReasonCode(rule: string): string | undefined {
       return REASON_CODES.RISK_SCORE_HIGH_THRESHOLD;
     case "risk.score.borderline":
       return REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW;
+    case "risk.score.challenge":
+      return REASON_CODES.RISK_SCORE_HIGH_CHALLENGE_REQUIRED;
+    case "velocity.delay.window":
+      return REASON_CODES.VELOCITY_EXCEEDED_DELAY_WINDOW;
+    case "asset.quarantine.required":
+      return REASON_CODES.ASSET_RESTRICTED_QUARANTINE_REQUIRED;
+    default:
+      return undefined;
+  }
+}
+
+function getFallbackReasonCode(decision: PolicyDecisionResult): string | undefined {
+  switch (decision) {
+    case "DENY":
+      return REASON_CODES.RISK_SCORE_HIGH_THRESHOLD;
+    case "REVIEW":
+      return REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW;
+    case "CHALLENGE":
+      return REASON_CODES.RISK_SCORE_HIGH_CHALLENGE_REQUIRED;
+    case "DELAY":
+      return REASON_CODES.VELOCITY_EXCEEDED_DELAY_WINDOW;
+    case "QUARANTINE":
+      return REASON_CODES.ASSET_RESTRICTED_QUARANTINE_REQUIRED;
     default:
       return undefined;
   }
@@ -26,12 +49,9 @@ function buildReasonCodes(decision: PolicyDecisionResult, appliedRules: string[]
     .map((rule) => mapRuleToReasonCode(rule))
     .filter((reasonCode): reasonCode is string => typeof reasonCode === "string");
 
-  if (decision === "DENY" && mapped.length === 0) {
-    return [REASON_CODES.RISK_SCORE_HIGH_THRESHOLD];
-  }
-
-  if (decision === "REVIEW" && mapped.length === 0) {
-    return [REASON_CODES.RISK_SCORE_HIGH_BORDERLINE_REVIEW];
+  if (mapped.length === 0) {
+    const fallback = getFallbackReasonCode(decision);
+    return fallback ? [fallback] : [];
   }
 
   return normalizeReasonCodes(mapped);

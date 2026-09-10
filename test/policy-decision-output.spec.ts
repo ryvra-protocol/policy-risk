@@ -35,11 +35,22 @@ test("ALLOW can pass with empty reason_codes", () => {
   assert.equal(result.valid, true);
 });
 
-test("REVIEW can pass with empty reason_codes", () => {
+test("REVIEW requires a reason code", () => {
   const result = validatePolicyDecisionOutput({
     decision: "REVIEW",
     reason_codes: [],
     policy_version: "v1"
+  });
+
+  assert.equal(result.valid, false);
+  assert.ok(result.errors.some((error) => error.includes("REVIEW decisions must include at least one reason code")));
+});
+
+test("CHALLENGE is a supported decision", () => {
+  const result = validatePolicyDecisionOutput({
+    decision: "CHALLENGE",
+    reason_codes: ["RISK_SCORE_HIGH_CHALLENGE_REQUIRED"],
+    policy_version: "v1.0.0"
   });
 
   assert.equal(result.valid, true);

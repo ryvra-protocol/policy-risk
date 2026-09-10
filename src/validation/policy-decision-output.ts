@@ -1,7 +1,8 @@
 import type { CanonicalPolicyDecisionOutput, PolicyDecisionResult } from "../types/policy.js";
 import { isCanonicalReasonCode } from "../types/reason-codes.js";
 
-const VALID_DECISIONS: PolicyDecisionResult[] = ["ALLOW", "DENY", "REVIEW"];
+const VALID_DECISIONS: PolicyDecisionResult[] = ["ALLOW", "DENY", "REVIEW", "CHALLENGE", "DELAY", "QUARANTINE"];
+const REASON_CODE_REQUIRED_DECISIONS = new Set<PolicyDecisionResult>(["DENY", "REVIEW", "CHALLENGE", "DELAY", "QUARANTINE"]);
 
 export interface PolicyDecisionOutputValidationResult {
   valid: boolean;
@@ -12,7 +13,7 @@ export function validatePolicyDecisionOutput(output: CanonicalPolicyDecisionOutp
   const errors: string[] = [];
 
   if (!VALID_DECISIONS.includes(output.decision)) {
-    errors.push("decision must be one of ALLOW, DENY, REVIEW");
+    errors.push(`decision must be one of ${VALID_DECISIONS.join(", ")}`);
   }
 
   if (!Array.isArray(output.reason_codes)) {
@@ -28,8 +29,8 @@ export function validatePolicyDecisionOutput(output: CanonicalPolicyDecisionOutp
       errors.push("reason_codes must use canonical reason code prefixes");
     }
 
-    if (output.decision === "DENY" && output.reason_codes.length === 0) {
-      errors.push("DENY decisions must include at least one reason code");
+    if (REASON_CODE_REQUIRED_DECISIONS.has(output.decision) && output.reason_codes.length === 0) {
+      errors.push(`${output.decision} decisions must include at least one reason code`);
     }
   }
 
